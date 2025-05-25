@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Play, RotateCcw, Trophy, HelpCircle, Volume2, VolumeX, Sparkles } from 'lucide-react';
 
 const BlinkTacToe = () => {
-  // Emoji categories
   const EMOJI_CATEGORIES = {
     animals: { name: 'Animals', emojis: ['🐶', '🐱', '🐵', '🐰', '🦊', '🐻', '🐼', '🐨'] },
     food: { name: 'Food', emojis: ['🍕', '🍟', '🍔', '🍩', '🍎', '🍌', '🍓', '🍊'] },
@@ -11,7 +10,6 @@ const BlinkTacToe = () => {
     space: { name: 'Space', emojis: ['🌟', '⭐️', '🌙', '☀️', '🪐', '🌍', '🚀', '👽'] }
   };
 
-  // Game state
   const [gameState, setGameState] = useState('category-selection');
   const [board, setBoard] = useState(Array(9).fill(null));
   const [currentPlayer, setCurrentPlayer] = useState(1);
@@ -26,9 +24,9 @@ const BlinkTacToe = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [animations, setAnimations] = useState({});
 
-  // CSS Styles
+
   const styles = {
-    // Main container
+  
     container: {
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #f3e8ff 0%, #fce7f3 25%, #dbeafe 100%)',
@@ -531,7 +529,7 @@ const BlinkTacToe = () => {
     }
   };
 
-  // Get random emoji from category
+  
   const getRandomEmoji = (category) => {
     const emojis = EMOJI_CATEGORIES[category].emojis;
     return emojis[Math.floor(Math.random() * emojis.length)];
@@ -540,9 +538,9 @@ const BlinkTacToe = () => {
   // Check for winning combination
   const checkWinner = useCallback((board) => {
     const lines = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-      [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-      [0, 4, 8], [2, 4, 6] // diagonals
+      [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+      [0, 3, 6], [1, 4, 7], [2, 5, 8], 
+      [0, 4, 8], [2, 4, 6] 
     ];
 
     for (let line of lines) {
@@ -569,25 +567,25 @@ const BlinkTacToe = () => {
     const currentHistory = currentPlayer === 1 ? player1History : player2History;
     const emoji = getRandomEmoji(currentCategory);
     
-    // Add new emoji
+  
     newBoard[index] = { emoji, player: currentPlayer, id: Date.now() };
     
-    // Update history
+   
     const newHistory = [...currentHistory, { position: index, id: Date.now() }];
     
-    // Handle vanishing rule (max 3 emojis per player)
+    
     if (newHistory.length > 3) {
       const oldestMove = newHistory[0];
-      // Check if trying to place on the same position as the oldest emoji
+      
       if (oldestMove.position === index) {
-        return; // Invalid move
+        return; 
       }
       
-      // Remove oldest emoji from board
+  
       newBoard[oldestMove.position] = null;
-      newHistory.shift(); // Remove from history
+      newHistory.shift(); 
       
-      // Add disappear animation
+     
       setAnimations(prev => ({
         ...prev,
         [oldestMove.position]: 'disappear'
